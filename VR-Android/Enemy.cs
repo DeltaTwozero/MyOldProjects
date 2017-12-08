@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    //Creating variables for enemy.
     NavMeshAgent agent;
     float dmg;
     bool isMove;
@@ -20,6 +21,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    //Getting component for enemy so he can use Unity tool NavMeshAgent; Givin him random damage power; Making him move immidiately.
     void Start ()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -27,6 +29,7 @@ public class Enemy : MonoBehaviour
         isMove = true;
     }
 	
+    //Enemy moves towards the player.
 	void Update ()
     {
         if(isMove)
@@ -35,6 +38,7 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision col)
     {
+        //Stopping the enemy. Giving player time to move further away from enemy (enemy movement looping structure).
         if (col.gameObject.tag == "Player")
         {
             Movement.instance.currentHP -= dmg;
@@ -43,6 +47,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    //Making enemy move again.
     IEnumerator StartMove()
     {
         yield return new WaitForSeconds(2f);

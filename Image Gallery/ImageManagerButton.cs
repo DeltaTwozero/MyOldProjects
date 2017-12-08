@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class ImageManagerButton : MonoBehaviour
 {
+    //Creating variables for gallery.
     [SerializeField]
     Button _nextImg;
 
@@ -19,6 +20,7 @@ public class ImageManagerButton : MonoBehaviour
     [SerializeField]
     int _currentImg;
 
+    //Setting "Default" image. Everything else accoding to method name.
     void Start()
     {
         _currentImg = 0;

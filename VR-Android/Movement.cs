@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Movement : MonoBehaviour
 {
+    //Creating variables for player.
     public float repeatRate, hp, currentHP;
     [SerializeField]
     GameObject capsule;
@@ -19,6 +20,7 @@ public class Movement : MonoBehaviour
 
     NavMeshAgent agent;
 
+    //Creating instance of this code in order to access it's components from another code.
     public static Movement instance = null;
 
     private void Awake()
@@ -28,6 +30,7 @@ public class Movement : MonoBehaviour
             instance = this;
         }
 
+        //Getting NavMeshAgent in order to use Unity tool.
         agent = GetComponent<NavMeshAgent>();
     }
 
@@ -36,11 +39,9 @@ public class Movement : MonoBehaviour
         hp = 100f;
         currentHP = hp;
         speed = 2;
-        //Create random goal in seconds
-        //Invoke("CreateGoal", 1f);
-        //InvokeRepeating("CreateGoal", 1, repeatRate);
     }
 
+    //Player moves automatically towards invisible goal.
     void Update()
     {
         agent.destination = goal.transform.position;
@@ -50,15 +51,15 @@ public class Movement : MonoBehaviour
 
         Raycast();
 
-        //transform.position += cam.forward * 0.7f * Time.deltaTime;
-
         Debug.DrawLine(cam.position, cam.rotation * Vector3.forward * 100f, Color.red);
     }
 
+    //Player uses his head as a "weapon" in order to hit the enemy.
     void Raycast()
     {
         if (Physics.Raycast(ray, out hit))
         {
+            //If player looks at enemy long enough enemy changes color. It's visually represented by activating particle system (red dots flying).
             if (hit.collider.gameObject.tag == "Enemy")
             {
                 if (Enemy.instance != null)
@@ -71,6 +72,7 @@ public class Movement : MonoBehaviour
                 }
             }
 
+            //If player looks at something else but enemy, then nothing happens. If player was looking at the enemy and turns away, then particle system deactivates.
             if (hit.collider.gameObject.tag != "Enemy")
             {
                 if (Enemy.instance != null)
@@ -78,6 +80,7 @@ public class Movement : MonoBehaviour
                 timer = 1;
             }
 
+            //Initially player was moving towards ray end point.
             #region Ray Movement
             //if (hit.collider.gameObject.tag == "Ground")
             //{
@@ -87,11 +90,13 @@ public class Movement : MonoBehaviour
         }
     }
 
+    //Goal coordinates created randomly.
     void CreateGoal()
     {
         goal.transform.position = new Vector3(Random.Range(-9, 9), 1, Random.Range(-9, 9));
     }
 
+    //New goal created.
     private void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag == "Goal")
