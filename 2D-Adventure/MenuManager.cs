@@ -7,11 +7,13 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     GameObject menuBG;
 
+    //Deactivating game pause menu.
     void Start()
     {
         menuBG.SetActive(false);
     }
 
+    //Checking for button. If pressed, then pause the game and activate menu.
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -21,17 +23,20 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    //Closes application.
     public void ExitGame()
     {
         Application.Quit();
     }
 
+    //Resumes the game at the point it was paused.
     public void ContinueGame()
     {
         Time.timeScale = 1;
         menuBG.SetActive(false);
     }
 
+    //Restarts current level.
     public void RestartGame()
     {
         Time.timeScale = 1;

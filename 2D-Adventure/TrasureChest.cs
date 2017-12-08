@@ -26,6 +26,7 @@ public class TrasureChest : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D col)
     {
+        //If player Melees the chest coins pops out and sprite changes.
         if (col.gameObject.tag == "Player" && Input.GetKeyDown(KeyCode.V) && this.GetComponent<SpriteRenderer>().sprite == closedChest)
         {
             this.GetComponent<SpriteRenderer>().sprite = openChest;
@@ -36,6 +37,7 @@ public class TrasureChest : MonoBehaviour
         }
     }
 
+    //This is how coins are popping out.
     void Chest()
     {
         random = Random.Range(-300, 300);

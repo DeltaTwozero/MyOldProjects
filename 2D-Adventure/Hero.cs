@@ -4,20 +4,9 @@ using System.Collections;
 
 public class Hero : MonoBehaviour
 {
-    /*#region Physics2D.OverlapCircle for ground detection
-    public Transform groundCheck;
-    public float groundCheckRadius;
-    public LayerMask whatIsGround;
-    #endregion*/
-
+    //Creating variables for player.
 	public Rigidbody2D rb;
 	public Animator animator;
-
-    #region Levels
-    public GameObject lvl1;
-    public GameObject lvl2;
-    public GameObject lvl3;
-    #endregion
 
     [SerializeField]
     GameObject magnet;
@@ -46,9 +35,6 @@ public class Hero : MonoBehaviour
     [SerializeField]
     Transform coinsSpawn;
     [SerializeField]
-//    Sprite closedChest;
-//    [SerializeField]
-//    Sprite openChest;
 
 	public float speed = 30f;
 	float move;
@@ -71,6 +57,7 @@ public class Hero : MonoBehaviour
     public int godInt;
     public int keyInt;
 
+    //Creating insctance of this code so I could access it's variables from another code.
     public static Hero instance;
 
 	void Awake()
@@ -80,18 +67,19 @@ public class Hero : MonoBehaviour
         animator = this.GetComponent<Animator>();
     }
 
+    //Setting up variables.
 	void Start ()
 	{
         maxHealth = 100;
         currentHealth = maxHealth;
+        //UI's image is displayed according to hp.
         healthImage.fillAmount = (float)maxHealth / 100f;
         GetComponent<SpriteRenderer>().flipX = false;
-        lvl2.SetActive (false);
-        lvl3.SetActive (false);
 	}
 
 	void Update ()
 	{
+        //Changing animations.
         if (Mathf.Abs(move) > 0)
         {
             animator.SetBool("isRun", true);
@@ -123,6 +111,7 @@ public class Hero : MonoBehaviour
 
         }
 
+        //Power Up's activation.
         if (Input.GetKeyDown(KeyCode.R) && magInt == 1)
         {
             magInt--;
@@ -137,21 +126,25 @@ public class Hero : MonoBehaviour
             StartCoroutine(ActivateGodmode());
         }
 
+        //Making my player jump.
         if (Input.GetKeyDown(KeyCode.Space) && isGround == true)
         {
             isJump = true;
         }
 
+        //Checking if dead.
         if (currentHealth <= 0)
         {
             isDead = true;
         }
 
+        //Check to prevent overhealing.
         if (currentHealth > maxHealth)
         {
             currentHealth = maxHealth;
         }
 
+        //I'm activating power ups if their quantity is = 1.
         if (magInt == 1)
         {
             magnet.SetActive(true);
@@ -170,6 +163,7 @@ public class Hero : MonoBehaviour
             kappa.SetActive(false);
         }
 
+        //Key is needed for opening next level.
         if (keyInt >= 1)
         {
             key.SetActive(true);
@@ -179,11 +173,13 @@ public class Hero : MonoBehaviour
             key.SetActive(false);
         }
 
+        //Displaying ammount of coins in UI.
         coinAmmountText.text = coinAmmount.ToString();
 	}
 
 	void FixedUpdate()
 	{
+        //If player is dead I'm dissabling all controlls.
         if (isDead == false)
         {
             move = Input.GetAxis("Horizontal");
@@ -195,6 +191,7 @@ public class Hero : MonoBehaviour
 
 		rb.velocity = new Vector2 (move * speed, rb.velocity.y);
 
+        //changing sprites from right to left and vice versa.
 		if (move > 0)
 		{
 			this.GetComponent<SpriteRenderer> ().flipX = false;
@@ -204,6 +201,7 @@ public class Hero : MonoBehaviour
 			this.GetComponent<SpriteRenderer> ().flipX = true;
 		}
 
+        //checking for button. If true then method is used.
         if (isJump)
         {
             Jump(jumpForce);
@@ -213,33 +211,18 @@ public class Hero : MonoBehaviour
         {
             ThrowBomb();
         }
-
-        //this.isGround = Physics2D.OverlapCircle(this.groundCheck.position, this.groundCheckRadius, this.whatIsGround);
-        //this.isPlatform = Physics2D.OverlapCircle(this.groundCheck.position, this.groundCheckRadius, this.whatIsPlatform);
-        //Debug.LogFormat("{0}, {1}, {2}, {3}", isGround, this.groundCheck.position, this.groundCheckRadius, this.whatIsGround);
-
-        //animator.SetBool("isGround",  this.isGround);
-        //animator.SetFloat("vSpeed", this.rb.velocity.y);
 	}
 
+    //Checking for a various collisions. Taking accoding actions.
 	void OnCollisionEnter2D(Collision2D col)
 	{
-        //This was replaced by Physics2D.OverlapCircle
-//		if (col.gameObject.tag == "Ground")
-//		{
-//			this.isGround = true;
-//		}
-
-//        if (isPlatform == true)
-//        {
-//            this.transform.parent = col.transform;
-//        }
-
+        //Making sure that player moves with platform.
         if (col.gameObject.tag == "Platform")
         {
             this.transform.parent = col.transform;
         }
 
+        //Checking for immortality.
         if (isGodmode == false)
         {
             if (col.gameObject.tag == "Arrow")
@@ -253,6 +236,7 @@ public class Hero : MonoBehaviour
             }
         }
 
+        //Making money.
         if (col.gameObject.tag == "Coin")
         {
             coinAmmount++;
@@ -265,20 +249,16 @@ public class Hero : MonoBehaviour
         }
 	}
 
+    //Checking if player left platform.
 	void OnCollisionExit2D(Collision2D col)
 	{
-        //This was replaced by Physics2D.OverlapCircle
-//		if (col.gameObject.tag == "Ground")
-//		{
-//			this.isGround = false;
-//		}
-
         if (col.gameObject.tag == "Platform")
         {
             this.transform.parent = null;
         }
 	}
 
+    //Player is constantly takes damage near enemies.
     void OnTriggerStay2D(Collider2D col)
     {
         if (isGodmode == false)
@@ -290,6 +270,7 @@ public class Hero : MonoBehaviour
         }
     }
 
+    //This part was implemented in order to teleport player to another level.
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Key")
@@ -309,6 +290,7 @@ public class Hero : MonoBehaviour
             lvl2.SetActive(false);
             lvl3.SetActive(true);
         }
+        //Making money.
         if(col.gameObject.tag == "Coin")
         {
             coinAmmount++;
@@ -316,12 +298,14 @@ public class Hero : MonoBehaviour
         }
     }
 
+    //Height of the jump.
 	void Jump(float force)
 	{
 		rb.AddForce (new Vector2 (0, force));
         isJump = false;
 	}
-        
+
+    //Creating bullet.
     void Shoot()
     {
         GameObject bullet;
@@ -330,12 +314,14 @@ public class Hero : MonoBehaviour
         bullet.GetComponent<Rigidbody2D>().AddForce(new Vector2(5000,200));
     }
 
+    //Killing bullet in 2 second if it hits nothing.
     IEnumerator DestroyBullet(GameObject temp)
     {
         yield return new WaitForSeconds(2f);
         Destroy(temp.gameObject);
     }
 
+    //Throwing bomb.
     void ThrowBomb()
     {
         GameObject bomb;
@@ -344,12 +330,14 @@ public class Hero : MonoBehaviour
         bomb.GetComponent<Rigidbody2D>().AddForce(new Vector2(500,250));
     }
 
+    //Destroying bomb.
     IEnumerator DestroyBomb(GameObject temp)
     {
         yield return new WaitForSeconds(3f);
         Destroy(temp.gameObject);
     }
 
+    //Taking damage and checking if player is dead.
     void TakeDamage(int dmg)
     {
         currentHealth = currentHealth - dmg;
@@ -357,6 +345,7 @@ public class Hero : MonoBehaviour
         healthImage.fillAmount = (float)currentHealth / 100;
     }
 
+    //I NEED HEALING starts here.
     void GiveHealth(int heal)
     {
         currentHealth = currentHealth + heal;
@@ -364,6 +353,7 @@ public class Hero : MonoBehaviour
         Destroy(GameObject.FindWithTag("Medkit"));
     }
 
+    //Changing animations to dead.
     void CheckGameOver()
     {
         if (currentHealth <= 0)
@@ -373,6 +363,7 @@ public class Hero : MonoBehaviour
         }
     }
 
+    //Power Ups.
     IEnumerator ActivateMagnet()
     {
         yield return new WaitForSeconds(2f);

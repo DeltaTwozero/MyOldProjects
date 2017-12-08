@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ArrowSpawner : MonoBehaviour
 {
+    //Creating variables. I've made some variables serialized in order to change certain settings in Unity (for testing purposes).
     [SerializeField]
     GameObject arrow;
     [SerializeField]
@@ -16,10 +17,12 @@ public class ArrowSpawner : MonoBehaviour
 
     void Start()
     {
+        //I'm assigning current hp to max hp. I made this in order to save time in future if I decide to create healing for turret. Starting infinite "fire" cycle.
         currentHP = maxHP;
         InvokeRepeating("CreateArrow", 0, rate);
     }
 
+    //Method for shooting.
     void CreateArrow()
     {
         GameObject temp = Instantiate(arrow, this.transform.position, Quaternion.identity) as GameObject;
@@ -28,12 +31,14 @@ public class ArrowSpawner : MonoBehaviour
         temp.GetComponent<Move>().speed = speed;
     }
 
+    //Method for calculating damage and changing current hp.
     void TakeDamage(int dmg)
     {
         currentHP = currentHP -= dmg;
         CheckGameOver();
     }
 
+    //Method for destroying an object.
     void CheckGameOver()
     {
         if (currentHP <= 0)
@@ -42,6 +47,7 @@ public class ArrowSpawner : MonoBehaviour
         }
     }
 
+    //Method for taking damage from a specific source.
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Bullet")
@@ -51,6 +57,7 @@ public class ArrowSpawner : MonoBehaviour
     }
 }
 
+//In this section of the code I'm making my projectile move in the precalculated direction.
 public class Move : MonoBehaviour
 {
     Rigidbody2D rb;
@@ -67,11 +74,13 @@ public class Move : MonoBehaviour
         rb.velocity = new Vector2(-speed, rb.velocity.y);
     }
 
+    //Method for clearing projectile in order to lower CPU usage.
     void DestroyMe()
     {
         Destroy(this.gameObject);
     }
 
+    //Method checks for collision with objects.
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Ground" || col.gameObject.tag == "Player")

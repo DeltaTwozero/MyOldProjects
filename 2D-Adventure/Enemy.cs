@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
+    //Crating variables for enemy.
     Animator animator;
 
     Vector3 startPos;
@@ -16,25 +17,25 @@ public class Enemy : MonoBehaviour
     public int currentHP;
     public int maxHP;
 
+    //I'm getting animator in order to use animator tool provided by Unity.
     void Awake()
     {
         animator = this.GetComponent<Animator>();
     }
 
+    //Assigning all the variables in Start.
 	void Start ()
     {
-//        startPos = this.transform.position;
-//        goalPos = startPos + new Vector3(5, 0, 0);
         currentHP = maxHP;
         startPos = this.transform.position;
         Vector3 offset = new Vector3(MovePoint, 0, 0);
         goalPos = startPos + offset;
-        //Debug.Log(speed);
         var startTime = Time.time;
         var journeyLength = Vector3.Distance(startPos, goalPos);
         StartCoroutine(Move(startPos, goalPos, journeyLength, startTime));        
     }
 
+    //After reaching destination enemy turns around.
     private void OnDestinationReached(Vector3 startPosition, Vector3 destPosition, float distance, float startTime)
     {
         isLeft = !isLeft;
@@ -42,9 +43,9 @@ public class Enemy : MonoBehaviour
         StartCoroutine(Move(startPosition, destPosition, distance, startTime));
     }
 
+    //Movement logic.
     private IEnumerator Move(Vector3 startPosition, Vector3 destposition, float distance, float startTime)
-    {
-        //float pingpong = Mathf.PingPong(Time.time * speed, 1f);     
+    {     
         bool isActive = true;
         while(isActive)
         {
@@ -52,11 +53,6 @@ public class Enemy : MonoBehaviour
             float fracJourney = distCovered / distance;
             var result = Vector3.Lerp(transform.position, destposition, fracJourney);
             transform.position = result;
-
-            //if (MovePoint > 0)
-            //{
-            //    Debug.LogFormat("{0}, {1}, {2}, {3}, {4},", startPosition, destposition, result, MovePoint, Vector3.Distance(destposition, transform.position));
-            //}
 
             yield return null;
 
@@ -69,33 +65,10 @@ public class Enemy : MonoBehaviour
         }        
     }
 	
+    //Changing animations.
 	void Update ()
     {
        float pingpong = Mathf.PingPong(Time.time * speed, 1f);
-
-       /*if (transform.position == startPos)
-       {
-           isRight = false;
-       }
-
-        if (transform.position == goalPos)
-        {
-            isRight = true;
-        }
-
-        if (isRight == true)
-       {
-            //this.transform.position = Vector3.Lerp(transform.position, goalPos, speed);
-            transform.position = Vector3.Lerp(startPos, goalPos, pingpong);
-            this.GetComponent<SpriteRenderer>().flipX = false;
-       }
-
-       if (isRight == false)
-       {
-            //this.transform.position = Vector3.Lerp(transform.position, startPos, speed);
-            transform.position = Vector3.Lerp(goalPos, startPos, pingpong);
-            this.GetComponent<SpriteRenderer>().flipX = true;
-       }*/
 
        if (Mathf.Abs(transform.position.x) > 0)
        {
@@ -106,23 +79,14 @@ public class Enemy : MonoBehaviour
            animator.SetBool("isWalk", false);
        }
 
+       //Checking if dead.
        if (currentHP <= 0)
        {
            Destroy(this.gameObject);
        }
-
-//        if (Mathf.Round(pingpong) == 0)
-//        {
-//            this.GetComponent<SpriteRenderer> ().flipX = false;
-//        }
-//        else if (Mathf.Round(pingpong) == 1f)
-//        {
-//            this.GetComponent<SpriteRenderer> ().flipX = true;
-//        }
-//
-//        Debug.Log(pingpong + " " +(Mathf.Round(pingpong)));
 	}
 
+    //Checking for collisions with different objects.
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Bullet")
@@ -139,6 +103,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    //Taking damage and destroying an object that delivered damage.
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Bullet")

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GroundCheck : MonoBehaviour
 {
+    //This is is made in order to check if player is on the ground. This is crusial for triggering jump/ground/idle animations.
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask whatIsGround;

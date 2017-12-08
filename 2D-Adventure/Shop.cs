@@ -17,6 +17,7 @@ public class Shop : MonoBehaviour
     GameObject shopMenu;
     private bool isShop;
 
+    //Setting up merchandise and prices.
 	void Start ()
     {
         qtyMagnet = 2;
@@ -25,7 +26,8 @@ public class Shop : MonoBehaviour
         priceMag = 15;
         priceGod = 30;
 	}
-        
+    
+    //Buy methods.
     public void BuyGodmode()
     {
         if (Hero.instance.godInt == 0 && qtyGodmode > 0 && Hero.instance.coinAmmount >= priceGod)
@@ -46,24 +48,16 @@ public class Shop : MonoBehaviour
         }
     }
 
-    public void CloseShop()
-    {
-        shopMenu.SetActive(false);
-    }
-
+    //Open shop if player enters.
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Player")
         {
             isShop = true;
         }
-//
-//        if (isShop && shopMenu.active == true)
-//        {
-//            shopMenu.SetActive(false);
-//        }
     }
 
+    //Close shop if player leaves.
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.gameObject.tag == "Player")
@@ -73,11 +67,9 @@ public class Shop : MonoBehaviour
         }
     }
 
+    //Open/close shop with a button.
     void Update()
     {
-//        Debug.Log(isShop);
-//        Debug.Log(shopMenu.activeSelf);
-
         if (isShop)
         {
             if (Input.GetKeyDown(KeyCode.X))

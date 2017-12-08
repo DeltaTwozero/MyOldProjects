@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Platform : MonoBehaviour
 {
+    //I've made 2 methods for moving platform. I prefer PingPong, but both of them works. I've decided to save them.
 	#region PingPong Method
 
     Vector3 startPos;
@@ -20,6 +21,7 @@ public class Platform : MonoBehaviour
 
     void Start()
     {
+        //Direction check.
         startPos = this.transform.position;
         if (isHorizontal)
         {
@@ -29,6 +31,7 @@ public class Platform : MonoBehaviour
             goalPos = startPos + new Vector3(0, ypos, 0);
     }
 
+    //Platform movement.
     void Update()
     {
         float pingpong = Mathf.PingPong(Time.time * speed, 1f);

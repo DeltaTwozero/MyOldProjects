@@ -3,6 +3,7 @@ using System.Collections;
 
 public class EnemyEagle : MonoBehaviour
 {
+    //Ceating variables.
     Animator animator;
     [SerializeField, Range(0,100)]
     float speed;
@@ -18,6 +19,7 @@ public class EnemyEagle : MonoBehaviour
     bool isMove;
     float distance;
 
+    //Setting up animator and current hp.
 	void Start ()
     {
         animator = GetComponent<Animator>();
@@ -25,8 +27,10 @@ public class EnemyEagle : MonoBehaviour
         animator.SetBool("isIdle", true);
 	}
 
+    //Changing animations and distance to player. If in close proximity enemy starts pursuin until player or enemy is dead.
 	void Update ()
     {
+        //checking for death.
         if (currentHP <= 0)
         {
             Destroy(this.gameObject);
@@ -51,6 +55,7 @@ public class EnemyEagle : MonoBehaviour
             animator.SetBool("isIdle", true);
 	}
 
+    //Checking collision with different objects.
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Bomb")
@@ -66,6 +71,7 @@ public class EnemyEagle : MonoBehaviour
         }
     }
 
+    //Melee mechanic. Taking damage from player.
     void OnTriggerStay2D(Collider2D col)
     {
         if (Input.GetKeyDown(KeyCode.V) && col.gameObject.tag == "Player")

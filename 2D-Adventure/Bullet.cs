@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour
 {
+    //Simple code for player's bullet.
     Vector3 dir = Vector2.zero;
     float speed = 5f;
 

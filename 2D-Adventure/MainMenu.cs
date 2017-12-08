@@ -4,6 +4,7 @@ using System.Collections;
 
 public class MainMenu : MonoBehaviour
 {
+    //Eh... Either start the game or leave. Simple enough, right?
     public void StartGame()
     {
         SceneManager.LoadScene("Main");

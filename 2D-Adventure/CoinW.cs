@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CoinW : MonoBehaviour
 {
+    //Same idea as "Coin script" but for some reason that script was not working well with a chest. I made this one instead.
     [SerializeField]
     Transform player;
 
