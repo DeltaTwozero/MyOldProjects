@@ -1,0 +1,9 @@
+﻿  GuessingGameC101142747.cpp
+d:\education\c++projects\guessinggamec++101142747\guessinggamec++101142747\guessinggamec101142747.cpp(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+d:\education\c++projects\guessinggamec++101142747\guessinggamec++101142747\guessinggamec101142747.cpp(6): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+d:\education\c++projects\guessinggamec++101142747\guessinggamec++101142747\guessinggamec101142747.cpp(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+d:\education\c++projects\guessinggamec++101142747\guessinggamec++101142747\guessinggamec101142747.cpp(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+d:\education\c++projects\guessinggamec++101142747\guessinggamec++101142747\guessinggamec101142747.cpp(14): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+d:\education\c++projects\guessinggamec++101142747\guessinggamec++101142747\guessinggamec101142747.cpp(17): warning C4101: 'isPlayer1': unreferenced local variable
+  GuessingGameC++101142747.vcxproj -> D:\Education\C++projects\GuessingGameC++101142747\Debug\GuessingGameC++101142747.exe
+  GuessingGameC++101142747.vcxproj -> D:\Education\C++projects\GuessingGameC++101142747\Debug\GuessingGameC++101142747.pdb (Partial PDB)
