@@ -4,11 +4,13 @@ using UnityEngine.SceneManagement;
 
 public class DeathZone : MonoBehaviour
 {
+    //This is for zone below player.
     public GameObject _player;
     public GameObject _ball;
     public GameObject _GameOver;
     public GameObject _bricks;
 
+    //Taking damage.
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject)
@@ -17,6 +19,7 @@ public class DeathZone : MonoBehaviour
         }
     }
 
+    //Checking if dead.
     void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject)

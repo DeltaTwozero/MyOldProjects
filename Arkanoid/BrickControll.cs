@@ -8,15 +8,14 @@ public class BrickControll : MonoBehaviour
     SpriteRenderer _renderer;
 
     int _brickHP;
-    //int _brickCount;
 
+    //Assigning random hp to brick.
 	void Start ()
     {
         _brickHP = Random.Range(1,4);
-        //_brickCount = 20;
         _renderer = GetComponent<SpriteRenderer>();
 
-        
+        //Setting brick color according to hp.
         if (_brickHP == 1)
         {
             _renderer.color = Color.green;
@@ -33,22 +32,18 @@ public class BrickControll : MonoBehaviour
         }
     }
 
+    //Taking damage
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject)
         {
             _brickHP--;
-            //_brickCount--;
         }
     }
 
+    //checking if dead.
     void OnCollisionExit2D(Collision2D collision)
     {
         if (_brickHP == 0) Destroy(this.gameObject);
-
-        //if (_brickCount == 0)
-        //{
-        //    SceneManager.LoadScene(0);
-        //}
     }
 }

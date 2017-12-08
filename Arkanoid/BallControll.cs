@@ -3,6 +3,7 @@ using System.Collections;
 
 public class BallControll : MonoBehaviour
 {
+    //creating variables for ball.
     [SerializeField]
     Sprite[] _sprites;
 
@@ -14,6 +15,7 @@ public class BallControll : MonoBehaviour
     Vector2 _ballForce;
     Rigidbody2D rb;
 
+    //Setting up variables.
     void Start ()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -25,6 +27,7 @@ public class BallControll : MonoBehaviour
         _renderer.GetComponent<SpriteRenderer>().sprite = _sprites[Random.Range(0, 26)];
     }
 
+    //Launching a ball.
     void Update ()
     {
         if (Input.GetKeyDown(KeyCode.Space))

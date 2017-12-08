@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class Game1Menu : MonoBehaviour
 {
+    //Simple GUI menu interface. Start game or quit.
     void OnGUI()
     {
         if (GUI.Button(new Rect(10, 10, 100, 50), "Main menu"))
